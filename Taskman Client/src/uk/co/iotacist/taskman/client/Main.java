@@ -1,4 +1,4 @@
-package uk.co.iotacist.taskman.server;
+package uk.co.iotacist.taskman.client;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -10,7 +10,7 @@ import javax.swing.JFrame;
 import uk.co.iotacist.logman.Logger;
 import uk.co.iotacist.logman.console.Console;
 import uk.co.iotacist.logman.formatter.TimeNameLevelFormatter;
-import uk.co.iotacist.taskman.server.nio.ConcurrentSocketServer;
+import uk.co.iotacist.taskman.client.nio.SocketClient;
 
 public class Main extends WindowAdapter implements Runnable {
 	
@@ -18,16 +18,18 @@ public class Main extends WindowAdapter implements Runnable {
 	
 	private Console console;
 	
-	private ConcurrentSocketServer socketServer;
-	
 	private Logger log;
+	
+	private SocketClient socketClient;
+	
+	private Thread socketThread;
 	
 	public Main(int width, int height, int port) {
 		/* Setup Console instance. */
 		console = new Console(width, height, Color.DARK_GRAY, Color.LIGHT_GRAY);
 		/* Setup JFrame so we can attach Console */
 		frame = new JFrame();
-		frame.setTitle("Taskman Server Console");
+		frame.setTitle("Taskman Client Console");
 		frame.setBackground(Color.LIGHT_GRAY);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
@@ -36,7 +38,8 @@ public class Main extends WindowAdapter implements Runnable {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
 		/* Setup socket server instance. */
-		socketServer = new ConcurrentSocketServer(port);
+        socketClient = new SocketClient(9999);
+        socketThread = new Thread(socketClient);
 		/* Setup Logger instance. */
 		log = Logger.getLogger(Main.class, false);
 		log.setUseParentAppenders(true);
@@ -45,12 +48,11 @@ public class Main extends WindowAdapter implements Runnable {
 		log.setUseParentLevel(true);
 		log.setFormatter(new TimeNameLevelFormatter());
 		/* Start the socket server and the main class thread. */
-		socketServer.start();
+		socketThread.start();
 	}
 	
 	@Override
 	public void windowClosing(WindowEvent e) {
-		socketServer.stop();
 		super.windowClosing(e);
 	}
 	

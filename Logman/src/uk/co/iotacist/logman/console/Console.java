@@ -1,3 +1,18 @@
+/*
+ * Copyright 2020 Iotacist <iotacist@gmail.com>
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package uk.co.iotacist.logman.console;
 
 import java.awt.BorderLayout;
@@ -26,6 +41,16 @@ import uk.co.iotacist.logman.Log;
 import uk.co.iotacist.logman.Logger;
 import uk.co.iotacist.logman.appender.Appender;
 
+/**
+ * The <code>Console</code> class takes <code>LoggerEvent</code> messages from
+ * the logger and exports them to a console window.
+ * 
+ * @since 1.0
+ * 
+ * @version 1.0
+ * 
+ * @author Iotacist <iotacist@gmail.com>
+ */
 public class Console extends JPanel implements Appender {
 	/**
 	 * Log list model.
@@ -36,7 +61,7 @@ public class Console extends JPanel implements Appender {
 	 * Log list.
 	 */
 	protected final JList<Log> CONSOLE_LOG;
-	
+
 	/**
 	 * Log list renderer.
 	 */
@@ -51,49 +76,56 @@ public class Console extends JPanel implements Appender {
 	 * Log list scroll bar handler.
 	 */
 	protected final SmartScroller CONSOLE_LOG_SMART_CONTROLLER;
-	
+
 	/**
 	 * Severe log text foreground color.
 	 * 
 	 * Boston University Red.
 	 */
 	protected final Color consoleSevereColor = new Color(204, 0, 0);
+
 	/**
 	 * Warn log text foreground color.
 	 * 
 	 * Tangelo.
 	 */
 	protected Color consoleWarnColor = new Color(230, 76, 0);
+
 	/**
 	 * Info log text foreground color.
 	 * 
 	 * Electric Green.
 	 */
 	protected Color consoleInfoColor = new Color(0, 230, 0);
+
 	/**
 	 * Debug log text foreground color.
 	 * 
 	 * Duke Blue.
 	 */
 	protected Color consoleDebugColor = new Color(0, 0, 153);
+
 	/**
 	 * Default log text foreground color.
 	 * 
 	 * Default Yellow.
 	 */
 	protected Color consoleLogColor = new Color(255, 255, 0);
+
 	/**
 	 * Default panel background.
 	 * 
 	 * Default White.
 	 */
 	protected Color consoleBackgroundColor = new Color(255, 255, 255);
+
 	/**
 	 * Default selected item background.
 	 * 
 	 * Light Grey.
 	 */
-	protected Color consoleSelectedColor = new Color(211,211,211);
+	protected Color consoleSelectedColor = new Color(211, 211, 211);
+
 	/**
 	 * The serialization runtime associates with each serializable class a version
 	 * number, called a serialVersionUID, which is used during deserialization to
@@ -122,7 +154,8 @@ public class Console extends JPanel implements Appender {
 		/*
 		 * 
 		 */
-		CONSOLE_LOG_RENDERER = new ConsoleCellRenderer(consoleSevereColor, consoleWarnColor, consoleInfoColor, consoleDebugColor, consoleLogColor, background, selected);
+		CONSOLE_LOG_RENDERER = new ConsoleCellRenderer(consoleSevereColor, consoleWarnColor, consoleInfoColor,
+				consoleDebugColor, consoleLogColor, background, selected);
 		/*
 		 * Setup logger list.
 		 */
@@ -141,7 +174,8 @@ public class Console extends JPanel implements Appender {
 		CONSOLE_LOG_SCROLLBAR.setViewportView(CONSOLE_LOG);
 		CONSOLE_LOG_SCROLLBAR.setAutoscrolls(true);
 		CONSOLE_LOG_SCROLLBAR.setVisible(true);
-		CONSOLE_LOG_SMART_CONTROLLER = new SmartScroller(CONSOLE_LOG_SCROLLBAR, SmartScroller.VERTICAL, SmartScroller.END);
+		CONSOLE_LOG_SMART_CONTROLLER = new SmartScroller(CONSOLE_LOG_SCROLLBAR, SmartScroller.VERTICAL,
+				SmartScroller.END);
 		/*
 		 * Init JPanel.
 		 */
@@ -157,14 +191,14 @@ public class Console extends JPanel implements Appender {
 
 	@Override
 	public void setBackground(Color background) {
-		if(background != null) {
+		if (background != null) {
 			consoleBackgroundColor = background;
 			super.setBackground(background);
 		}
 	}
 
 	public void setSelectedBackground(Color selected) {
-		if(selected != null) {
+		if (selected != null) {
 			consoleSelectedColor = selected;
 		}
 	}
@@ -174,7 +208,7 @@ public class Console extends JPanel implements Appender {
 		CONSOLE_LOG_MODEL.addElement(log);
 		CONSOLE_LOG.ensureIndexIsVisible(CONSOLE_LOG_MODEL.getSize());
 	}
-	
+
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -228,7 +262,7 @@ public class Console extends JPanel implements Appender {
 		 * classes for that object that are compatible with respect to serialization.
 		 */
 		private static final long serialVersionUID = -3059877184559013726L;
-		
+
 		/**
 		 * Creates a new <code>ConsoleCellRenderer</code> with the specified colours.
 		 * 
@@ -240,26 +274,27 @@ public class Console extends JPanel implements Appender {
 		 * @param background - Colour of <code>Console</code> background.
 		 * @param selected   - Colour of <code>Console</code> selected items background.
 		 */
-		protected ConsoleCellRenderer(Color severe, Color warn, Color info, Color debug, Color log, Color background, Color selected) {
+		protected ConsoleCellRenderer(Color severe, Color warn, Color info, Color debug, Color log, Color background,
+				Color selected) {
 			/** Checking severe color is not null **/
 			if (severe != null) {
 				severeColor = severe;
-			/** Checking warn color is not null **/
+				/** Checking warn color is not null **/
 			} else if (warn != null) {
 				warnColor = warn;
-			/** Checking info color is not null **/
+				/** Checking info color is not null **/
 			} else if (info != null) {
 				infoColor = info;
-			/** Checking debug color is not null **/
+				/** Checking debug color is not null **/
 			} else if (debug != null) {
 				debugColor = debug;
-			/** Checking log color is not null **/
+				/** Checking log color is not null **/
 			} else if (log != null) {
 				logColor = log;
-			/** Checking background color is not null **/
+				/** Checking background color is not null **/
 			} else if (background != null) {
 				backgroundColor = background;
-			/** Checking selected color is not null **/
+				/** Checking selected color is not null **/
 			} else if (selected != null) {
 				selectedColor = selected;
 			}

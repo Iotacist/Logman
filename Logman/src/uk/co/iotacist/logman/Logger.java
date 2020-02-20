@@ -35,9 +35,7 @@ import uk.co.iotacist.logman.formatter.LevelNameFormatter;
  * ancestor in the Logger namespace.
  * 
  * @since 1.0
- * 
  * @version 1.1
- * 
  * @author Iotacist <iotacist@gmail.com>
  */
 public class Logger {
@@ -488,7 +486,7 @@ public class Logger {
 	 */
 	public static final Logger getLogger(Class<?> clazz, boolean simpleName) {
 		if (simpleName) {
-			return getLogger(clazz.getSimpleName());
+			return getLogger(clazz.getName());
 		}
 		return getLogger(clazz.getCanonicalName());
 	}
